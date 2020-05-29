@@ -1,4 +1,8 @@
 module.exports = {
+    devServer: {
+        open: true,
+    },
+
     configureWebpack: config => {
         config.module.rules.push({
             test: /\.csv$/,
