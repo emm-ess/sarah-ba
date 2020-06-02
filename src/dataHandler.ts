@@ -19,6 +19,9 @@ export const GENDER = [
     {id: 3, name: 'divers'},
 ] as const
 
+export type Fields = keyof Omit<RawDataEntry, 'submission' | 'item' | 'gender' | 'uv1' | 'uv2'>
+export type DataRecords = Record<Fields, number[]>
+
 type RawDataEntry = {
     submission: number
     item: number

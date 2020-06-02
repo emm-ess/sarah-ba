@@ -4,7 +4,8 @@
             <uv-select v-model="selection.uv1">UV 1</uv-select>
             <uv-select v-model="selection.uv2">UV 2</uv-select>
         </div>
-        <chart-wrapper :data="selectedData" />
+        <chart-wrapper :data="dataRecords" />
+        <stat-table :data="dataRecords" />
     </div>
 </template>
 
@@ -13,8 +14,9 @@ import {Component, Vue} from 'vue-property-decorator'
 
 import UvSelect from '@/components/UvSelect.vue'
 import ChartWrapper from '@/components/ChartWrapper.vue'
+import StatTable from '@/components/StatTable.vue'
 
-import {UV, DATA} from './dataHandler'
+import {UV, DATA, DataEntry, DataRecords} from './dataHandler'
 
 function passUV(value: number, selection: number): boolean {
     return selection === 0 ? true : value === selection
@@ -24,6 +26,7 @@ function passUV(value: number, selection: number): boolean {
     components: {
         UvSelect,
         ChartWrapper,
+        StatTable,
     },
 })
 export default class App extends Vue {
@@ -32,11 +35,35 @@ export default class App extends Vue {
         uv2: UV[0].id,
     }
 
-    get selectedData() {
+    get selectedData(): DataEntry[] {
         const {uv1, uv2} = this.selection
         return DATA.filter((entry) => {
             return passUV(entry.uv1, uv1) && passUV(entry.uv2, uv2)
         })
+    }
+
+    get dataRecords(): DataRecords {
+        return this.selectedData.reduce(
+            (result, entry) => {
+                result.plural.push(entry.plural)
+                result.vor.push(entry.vor)
+                result.krit.push(entry.krit)
+                result.spill1.push(entry.spill1)
+                result.spill2.push(entry.spill2)
+                result.spill3.push(entry.spill3)
+                result.sentence.push(entry.sentence)
+                return result
+            },
+            {
+                plural: [],
+                vor: [],
+                krit: [],
+                spill1: [],
+                spill2: [],
+                spill3: [],
+                sentence: [],
+            } as DataRecords,
+        )
     }
 }
 </script>

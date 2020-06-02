@@ -4,14 +4,7 @@
             <slot />
         </label>
         <select id="uv1" v-model="innerValue">
-            <option
-                v-for="item in items"
-                :key="item.id"
-                :value="item.id"
-                id="test"
-                class="even-more"
-                >{{ item.name }}</option
-            >
+            <option v-for="item in items" :key="item.id" :value="item.id">{{ item.name }}</option>
         </select>
     </div>
 </template>

@@ -9,21 +9,12 @@ import {Component, Vue, Prop, Ref, Watch} from 'vue-property-decorator'
 import Chart from 'chart.js'
 import 'chartjs-chart-box-and-violin-plot'
 
-import {DataEntry} from '@/dataHandler'
-
-type Stat = {
-    mean: number
-    standardDeviation: number
-    significance: number
-}
-
-type Fields = 'plural' | 'vor' | 'krit' | 'spill1' | 'spill2' | 'spill3' | 'sentence'
-type ChartValues = Record<Fields, Stat>
+import {DataRecords} from '@/dataHandler'
 
 @Component
 export default class ChartWrapper extends Vue {
-    @Prop({type: Array, required: true})
-    private readonly data!: DataEntry[]
+    @Prop({type: Object, required: true})
+    private readonly data!: DataRecords
 
     @Ref()
     private readonly canvas!: HTMLCanvasElement
@@ -32,30 +23,6 @@ export default class ChartWrapper extends Vue {
 
     mounted(): void {
         this.addChart()
-    }
-
-    get chartValues(): Record<Fields, number[]> {
-        return this.data.reduce(
-            (result, entry) => {
-                result.plural.push(entry.plural)
-                result.vor.push(entry.vor)
-                result.krit.push(entry.krit)
-                result.spill1.push(entry.spill1)
-                result.spill2.push(entry.spill2)
-                result.spill3.push(entry.spill3)
-                result.sentence.push(entry.sentence)
-                return result
-            },
-            {
-                plural: [],
-                vor: [],
-                krit: [],
-                spill1: [],
-                spill2: [],
-                spill3: [],
-                sentence: [],
-            } as Record<Fields, number[]>,
-        )
     }
 
     get boxplotData() {
@@ -69,7 +36,7 @@ export default class ChartWrapper extends Vue {
                     outlierRadius: 3,
                     itemRadius: 3,
                     outlierColor: '#999999',
-                    data: Object.values(this.chartValues),
+                    data: Object.values(this.data),
                 },
             ],
         }
