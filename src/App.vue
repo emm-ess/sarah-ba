@@ -1,27 +1,23 @@
 <template>
     <div id="app">
-        <uv-select v-model="selection.uv1">UV 1</uv-select>
-        <uv-select v-model="selection.uv2">UV 2</uv-select>
-        <br/>
-        <chart-wrapper :data="selectedData"/>
+        <div class="selection-wrapper">
+            <uv-select v-model="selection.uv1">UV 1</uv-select>
+            <uv-select v-model="selection.uv2">UV 2</uv-select>
+        </div>
+        <chart-wrapper :data="selectedData" />
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import {Component, Vue} from 'vue-property-decorator'
 
 import UvSelect from '@/components/UvSelect.vue'
 import ChartWrapper from '@/components/ChartWrapper.vue'
 
-import {
-    UV,
-    DATA,
-} from './dataHandler'
+import {UV, DATA} from './dataHandler'
 
-function passUV(value: number, selection: number): boolean{
-    return selection === 0
-        ? true
-        : value === selection
+function passUV(value: number, selection: number): boolean {
+    return selection === 0 ? true : value === selection
 }
 
 @Component({
@@ -36,7 +32,7 @@ export default class App extends Vue {
         uv2: UV[0].id,
     }
 
-    get selectedData(){
+    get selectedData() {
         const {uv1, uv2} = this.selection
         return DATA.filter((entry) => {
             return passUV(entry.uv1, uv1) && passUV(entry.uv2, uv2)
@@ -45,12 +41,14 @@ export default class App extends Vue {
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="sass">
+#app
+    font-family: Avenir, Helvetica, Arial, sans-serif
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    color: #2c3e50
+
+.selection-wrapper
+    display: flex
+    flex-direction: row
 </style>

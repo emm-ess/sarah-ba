@@ -3,23 +3,21 @@ module.exports = {
     env: {
         browser: true,
         es6: true,
-        node: true,
     },
 
     parserOptions: {
         ecmaVersion: 2020,
+        parser: '@typescript-eslint/parser',
     },
-
-    plugins: ['@typescript-eslint'],
 
     extends: [
         'plugin:vue/essential',
-        'eslint:recommended',
-        'plugin:eslint-comments/recommended',
-        'plugin:json/recommended',
+        '@vue/standard',
         '@vue/typescript/recommended',
         '@vue/prettier',
         '@vue/prettier/@typescript-eslint',
+        'plugin:eslint-comments/recommended',
+        'plugin:json/recommended',
     ],
 
     rules: {
@@ -43,28 +41,12 @@ module.exports = {
                 allowSingleLine: true,
             },
         ],
-        'space-before-blocks': [
-            'error',
-            {
-                functions: 'never',
-                keywords: 'always',
-                classes: 'always',
-            },
-        ],
         'space-before-function-paren': [
             'error',
             {
                 anonymous: 'never',
                 named: 'never',
                 asyncArrow: 'always',
-            },
-        ],
-        'no-multiple-empty-lines': [
-            'error',
-            {
-                max: 3,
-                maxEOF: 3, // due to vue sfc
-                maxBOF: 0,
             },
         ],
         'no-multi-spaces': [
@@ -92,8 +74,6 @@ module.exports = {
         ],
         semi: ['error', 'never'],
         quotes: ['error', 'single'],
-        // some stuff in Prettier can't be controlled nicely.
-        'prettier/prettier': 'off',
     },
 
     overrides: [

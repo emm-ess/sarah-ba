@@ -1,9 +1,10 @@
 module.exports = {
+    publicPath: '.',
     devServer: {
         open: true,
     },
 
-    configureWebpack: config => {
+    configureWebpack: (config) => {
         config.module.rules.push({
             test: /\.csv$/,
             loader: 'csv-loader',
@@ -13,11 +14,11 @@ module.exports = {
                 skipEmptyLines: true,
             },
         })
-    // config.plugins = config.plugins.concat([
-    //   new StyleLintPlugin({
-    //     fix: false,
-    //     files: ['src/**/*.{vue,htm,html,css,sss,less,scss,sass}'],
-    //   }),
-    // ])
+        // config.plugins = config.plugins.concat([
+        //   new StyleLintPlugin({
+        //     fix: false,
+        //     files: ['src/**/*.{vue,htm,html,css,sss,less,scss,sass}'],
+        //   }),
+        // ])
     },
 }

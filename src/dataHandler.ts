@@ -1,5 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import data from './alleBedingungen.csv'
 
 type RawGender = 'weiblich' | 'männlich' | 'divers' | undefined
@@ -22,7 +22,7 @@ export const GENDER = [
 type RawDataEntry = {
     submission: number
     item: number
-    lural: number
+    plural: number
     vor: number
     krit: number
     spill1: number
