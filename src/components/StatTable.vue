@@ -6,23 +6,23 @@
         </tr>
         <tr>
             <th>min</th>
-            <td v-for="stat in stats" :key="stat.min">{{ stat.min }}</td>
+            <td v-for="stat in stats" :key="stat.name">{{ stat.min }}</td>
         </tr>
         <tr>
             <th>max</th>
-            <td v-for="stat in stats" :key="stat.max">{{ stat.max }}</td>
+            <td v-for="stat in stats" :key="stat.name">{{ stat.max }}</td>
         </tr>
         <tr>
             <th>mean</th>
-            <td v-for="stat in stats" :key="stat.mean">{{ stat.mean }}</td>
+            <td v-for="stat in stats" :key="stat.name">{{ stat.mean }}</td>
         </tr>
         <tr>
             <th>median</th>
-            <td v-for="stat in stats" :key="stat.median">{{ stat.median }}</td>
+            <td v-for="stat in stats" :key="stat.name">{{ stat.median }}</td>
         </tr>
         <tr>
             <th>standard Deviation</th>
-            <td v-for="stat in stats" :key="stat.standardDeviation">
+            <td v-for="stat in stats" :key="stat.name">
                 {{ stat.standardDeviation }}
             </td>
         </tr>
@@ -56,15 +56,25 @@ export default class StatTable extends Vue {
 
     get stats(): Stat[] {
         return Object.entries(this.data).map(([name, values]) => {
-            return {
-                name,
-                min: min(values),
-                max: max(values),
-                mean: mean(values),
-                median: median(values),
-                standardDeviation: standardDeviation(values),
-                // significance: 0,
-            }
+            return values.length
+                ? {
+                    name,
+                    min: min(values),
+                    max: max(values),
+                    mean: mean(values),
+                    median: median(values),
+                    standardDeviation: standardDeviation(values),
+                    // significance: 0,
+                }
+                : {
+                    name,
+                    min: 0,
+                    max: 0,
+                    mean: 0,
+                    median: 0,
+                    standardDeviation: 0,
+                    // significance: 0,
+                }
         })
     }
 }

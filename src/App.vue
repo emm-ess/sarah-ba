@@ -1,8 +1,9 @@
 <template>
     <div id="app">
         <div class="selection-wrapper">
-            <uv-select v-model="selection.uv1">UV 1</uv-select>
-            <uv-select v-model="selection.uv2">UV 2</uv-select>
+            <uv-select class="select" v-model="selection.uv1">UV 1</uv-select>
+            <uv-select class="select" v-model="selection.uv2">UV 2</uv-select>
+            <button @click="downloadSelection">Datensatz speichern</button>
         </div>
         <chart-wrapper :data="dataRecords" />
         <stat-table :data="dataRecords" />
@@ -12,6 +13,9 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
 
+import Papa from 'papaparse'
+import {saveAs} from 'file-saver'
+
 import UvSelect from '@/components/UvSelect.vue'
 import ChartWrapper from '@/components/ChartWrapper.vue'
 import StatTable from '@/components/StatTable.vue'
@@ -20,6 +24,10 @@ import {UV, DATA, DataEntry, DataRecords} from './dataHandler'
 
 function passUV(value: number, selection: number): boolean {
     return selection === 0 ? true : value === selection
+}
+
+function getUV(selectedId: number): string {
+    return (UV.find(({id}) => id === selectedId) as typeof UV[number]).name
 }
 
 @Component({
@@ -65,6 +73,14 @@ export default class App extends Vue {
             } as DataRecords,
         )
     }
+
+    downloadSelection(): void {
+        const {uv1, uv2} = this.selection
+        const name = `${getUV(uv1)}-${getUV(uv2)}.csv`
+        const csv = Papa.unparse(this.selectedData)
+        const blob = new Blob([csv], {type: 'text/plain;charset=utf-8'})
+        saveAs(blob, name)
+    }
 }
 </script>
 
@@ -78,4 +94,8 @@ export default class App extends Vue {
 .selection-wrapper
     display: flex
     flex-direction: row
+    padding: .5em 1em
+
+.select
+    margin: 0 1em 0 0
 </style>
